@@ -6,54 +6,25 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import io from 'socket.io-client';
 import { getProducts } from '../api/product';
 
-// const orders = [
-// 	{
-// 		id: 1,
-// 		orderNumber: '#00001',
-// 		name: '',
-// 		meals: [
-// 			{ name: 'Burger', quantity: 2 },
-// 			{ name: 'Fries', quantity: 1 },
-// 			{ name: 'Drink', quantity: 1 },
-// 		],
-// 		price: 15.99,
-// 		paymentType: 'Credit Card',
-// 		details: '',
-// 	},
-// 	{
-// 		id: 2,
-// 		orderNumber: '#00002',
-// 		meals: [
-// 			{ name: 'Pizza', quantity: 1 },
-// 			{ name: 'Salad', quantity: 1 },
-// 			{ name: 'Drink', quantity: 1 },
-// 		],
-// 		price: 19.99,
-// 		paymentType: 'Cash',
-// 	},
-// 	{
-// 		id: 3,
-// 		orderNumber: '#00003',
-// 		meals: [
-// 			{ name: 'Taco', quantity: 3 },
-// 			{ name: 'Rice', quantity: 1 },
-// 			{ name: 'Beans', quantity: 1 },
-// 		],
-// 		price: 10.99,
-// 		paymentType: 'Debit Card',
-// 	},
-// ];
-
 const ProductsList = () => {
-	const [orders, setOrder] = useState([]);
+	const [orders, setOrders] = useState([]);
+
+	// const socket = io('http://localhost:3003');
+	const socket = io('http://172.20.101.143:3003');
 
 	const loadProducts = async () => {
 		const data = await getProducts();
-		console.log(data);
-		setOrder(data);
+		setOrders(data);
 	};
+	useEffect(() => {
+		socket.on('data', (data) => {
+			const newProduct = data.body;
+			setOrders((order) => [...order, newProduct]);
+		});
+	}, []);
 
 	useEffect(() => {
 		loadProducts();
@@ -76,7 +47,7 @@ const ProductsList = () => {
 		>
 			{orders.map((order) => (
 				<View
-					key={order.id}
+					key={order._id}
 					style={[styles.card, isOrderHidden(order.id) && styles.hiddenCard]}
 				>
 					<Text style={styles.orderNumber}>{order.orderNumber}</Text>

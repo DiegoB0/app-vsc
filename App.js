@@ -6,8 +6,6 @@ import { StyleSheet, Text, View } from 'react-native';
 const Stack = createNativeStackNavigator();
 
 //Screens
-
-import GraphScreen from './screens/GraphScreen';
 import LoginScreen from './screens/LoginScreen';
 import ProductsList from './screens/ProductsScreen';
 
@@ -28,14 +26,6 @@ function MyStack() {
 				options={{
 					title: 'Mi Chuy 🍔',
 					headerStyle: { backgroundColor: '#ffa100' },
-				}}
-			/>
-			<Stack.Screen
-				name="GraphScreen"
-				component={GraphScreen}
-				options={{
-					title: 'Mi Chuy 🍔',
-					headerStyle: { backgroundColor: 'red' },
 				}}
 			/>
 		</Stack.Navigator>
