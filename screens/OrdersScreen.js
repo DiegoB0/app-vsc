@@ -7,22 +7,22 @@ import {
 	View,
 } from 'react-native';
 import io from 'socket.io-client';
-import { getProducts } from '../api/product';
+import { getOrders } from '../api/orders';
 
-const ProductsList = () => {
+const OrdersScreen = () => {
 	const [orders, setOrders] = useState([]);
 
-	// const socket = io('http://localhost:3003');
-	const socket = io('http://172.20.101.143:3003');
+	const socket = io('http://localhost:3003');
 
 	const loadProducts = async () => {
-		const data = await getProducts();
+		const data = await getOrders();
 		setOrders(data);
 	};
 	useEffect(() => {
-		socket.on('data', (data) => {
-			const newProduct = data.body;
-			setOrders((order) => [...order, newProduct]);
+		socket.on('order', (data) => {
+			console.log(data.body);
+			const updatedList = data.body;
+			setOrders(updatedList);
 		});
 	}, []);
 
@@ -50,7 +50,7 @@ const ProductsList = () => {
 					key={order._id}
 					style={[styles.card, isOrderHidden(order.id) && styles.hiddenCard]}
 				>
-					<Text style={styles.orderNumber}>{order.orderNumber}</Text>
+					<Text style={styles.orderNumber}>Orden #{order.orderNumber}</Text>
 					<View style={styles.mealsContainer}>
 						{order.meals.map((meal, index) => (
 							<Text key={index} style={styles.meal}>
@@ -135,4 +135,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ProductsList;
+export default OrdersScreen;

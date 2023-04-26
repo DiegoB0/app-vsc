@@ -4,7 +4,10 @@ import { StyleSheet, Text, View } from 'react-native';
 const GraphScreen = () => {
 	return (
 		<View>
-			<Text> I am the Count screen </Text>
+			<Text style={{ fontSize: 22, textAlign: 'center', marginTop: '10%' }}>
+				{' '}
+				ESTADISTICAS{' '}
+			</Text>
 		</View>
 	);
 };
