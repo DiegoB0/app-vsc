@@ -5,13 +5,43 @@ export const getMenus = async () => {
 	return await res.json();
 };
 
-export const saveMenu = async (newMenu) => {
-	// console.log(JSON.stringify(newMenu));
-	console.log(newMenu);
+export const getMenu = async (id) => {
+	const res = await fetch(`${API}/${id}`);
+	return await res.json();
+};
+
+export const saveMenu = async (menuName, menuPrice) => {
+	const price = parseInt(menuPrice);
 	const res = await fetch(API, {
 		method: 'POST',
-		body: newMenu,
+		body: JSON.stringify({
+			name: menuName,
+			price: price,
+		}),
+		headers: {
+			'Content-Type': 'application/json',
+		},
 	});
 
-	// return await res.json();
+	return await res.json();
+};
+
+export const deleteMenu = async (id) => {
+	await fetch(`${API}/${id}`, {
+		method: 'DELETE',
+	});
+};
+
+export const updateMenu = async (id, menuName, menuPrice) => {
+	const price = parseInt(menuPrice);
+	await fetch(`${API}/${id}`, {
+		method: 'PUT',
+		body: JSON.stringify({
+			name: menuName,
+			price: price,
+		}),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
 };

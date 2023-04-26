@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 function MenuStack() {
 	return (
 		<Stack.Navigator
-			initialRouteName="Menu"
+			initialRouteName="Menus"
 			screenOptions={{
 				headerTitleAlign: 'center',
 				// headerTintColor: '#ffa100',
@@ -30,7 +30,7 @@ function MenuStack() {
 			}}
 		>
 			<Stack.Screen
-				name="Menu"
+				name="Menus"
 				component={MenuScreen}
 				options={({ navigation }) => ({
 					headerShown: true,
@@ -80,7 +80,7 @@ function MenuStack() {
 					title: 'Menu',
 					headerLeft: () => (
 						<TouchableOpacity
-							onPress={() => navigation.navigate('Menu')}
+							onPress={() => navigation.navigate('Menus')}
 							style={{
 								marginRight: 20,
 								flexDirection: 'row',
@@ -196,6 +196,7 @@ function MyTabs() {
 			></Tab.Screen>
 			<Tab.Screen
 				name="Menu"
+				title="Menu"
 				component={MenuStack}
 				options={{
 					tabBarIcon: ({ color, size }) => (

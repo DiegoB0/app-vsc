@@ -1,11 +1,29 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const MenuItem = ({ menu }) => {
+const MenuItem = ({ menu, handleDelete }) => {
+	const navigation = useNavigation();
+
 	return (
 		<View style={styles.itemContainer}>
-			<Text>nombre: {menu.name}</Text>
-			<Text>precio: ${menu.price}</Text>
+			<TouchableOpacity
+				onPress={() => navigation.navigate('MenuForm', { id: menu._id })}
+			>
+				<Text>nombre: {menu.name}</Text>
+				<Text>precio: ${menu.price}</Text>
+			</TouchableOpacity>
+
+			<TouchableOpacity
+				style={{ flexDirection: 'row', alignItems: 'center' }}
+				onPress={() => handleDelete(menu._id)}
+			>
+				<MaterialIcons name="delete" size={24} color="red" />
+				<Text style={{ color: 'red', fontSize: 14, fontWeight: 600 }}>
+					Eliminar
+				</Text>
+			</TouchableOpacity>
 		</View>
 	);
 };
@@ -22,6 +40,8 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.2,
 		shadowRadius: 2,
 		elevation: 3,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 	},
 });
 

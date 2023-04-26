@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	FlatList,
 	StyleSheet,
@@ -7,31 +7,56 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { saveMenu } from '../api/menu';
+import { getMenu, saveMenu, updateMenu } from '../api/menu';
 
-const MenuFormScreen = ({ navigation }) => {
+const MenuFormScreen = ({ navigation, route }) => {
 	const [menu, setMenu] = useState({
 		name: '',
 		price: '',
 	});
 
+	const [edit, setEdit] = useState(false);
+
 	const handleChange = (name, value) => {
 		setMenu({ ...menu, [name]: value });
 	};
 
-	const handleSubmit = () => {
-		saveMenu(menu);
-		// console.log(menuSaved);
-
-		// navigation.navigate('Menu');
+	const handleSubmit = async () => {
+		try {
+			if (!edit) {
+				await saveMenu(menu.name, menu.price);
+			} else {
+				await updateMenu(route.params.id, menu.name, menu.price);
+			}
+			navigation.navigate('Menus');
+		} catch (err) {
+			console.error(err);
+		}
 	};
+
+	useEffect(() => {
+		if (route.params && route.params.id) {
+			setEdit(true);
+			(async () => {
+				const menu = await getMenu(route.params.id);
+				setMenu({ name: menu.name, price: menu.price });
+			})();
+		}
+	}, []);
 
 	return (
 		<View>
-			<Text style={{ fontSize: 22, textAlign: 'center', marginTop: '10%' }}>
-				{' '}
-				AGREGAR COMIDA AL MENU{' '}
-			</Text>
+			{!edit ? (
+				<Text style={{ fontSize: 22, textAlign: 'center', marginTop: '10%' }}>
+					{' '}
+					AGREGAR COMIDA AL MENU{' '}
+				</Text>
+			) : (
+				<Text style={{ fontSize: 22, textAlign: 'center', marginTop: '10%' }}>
+					{' '}
+					ACTUALIZAR COMIDA DEL MENU{' '}
+				</Text>
+			)}
 
 			<View style={style.container}>
 				<TextInput
@@ -39,6 +64,7 @@ const MenuFormScreen = ({ navigation }) => {
 					placeholderTextColor="gray"
 					style={style.input}
 					onChangeText={(text) => handleChange('name', text)}
+					value={menu.name}
 				></TextInput>
 
 				<TextInput
@@ -46,6 +72,7 @@ const MenuFormScreen = ({ navigation }) => {
 					placeholderTextColor="gray"
 					style={style.input}
 					onChangeText={(text) => handleChange('price', text)}
+					value={menu.price}
 				></TextInput>
 
 				<TouchableOpacity

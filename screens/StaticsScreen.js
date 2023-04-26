@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 const GraphScreen = () => {
@@ -12,6 +12,5 @@ const GraphScreen = () => {
 	);
 };
 
-export default GraphScreen;
-
 const styles = StyleSheet.create({});
+export default GraphScreen;
