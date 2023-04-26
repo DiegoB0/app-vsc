@@ -51,13 +51,17 @@ const OrdersScreen = () => {
 					style={[styles.card, isOrderHidden(order.id) && styles.hiddenCard]}
 				>
 					<Text style={styles.orderNumber}>Orden #{order.orderNumber}</Text>
+					<Text style={styles.orderNumber}>{order.name}</Text>
 					<View style={styles.mealsContainer}>
 						{order.meals.map((meal, index) => (
 							<Text key={index} style={styles.meal}>
-								{meal.name}: {meal.quantity}
+								{meal.name}
+
+								<Text style={styles.quantity2}> {meal.quantity}</Text>
 							</Text>
 						))}
 					</View>
+					<Text style={styles.mealsContainer}> Detalles: {order.details}</Text>
 					<Text style={styles.paymentType}>{order.paymentType}</Text>
 					<Text style={styles.price}>${order.price.toFixed(2)}</Text>
 
@@ -94,6 +98,14 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		marginTop: 10,
 		marginBottom: 5,
+	},
+	quantity2: {
+		fontSize: 15,
+		fontWeight: 'bold',
+		textAlign: 'center',
+		marginTop: 10,
+		marginBottom: 5,
+		color: 'red',
 	},
 	mealsContainer: {
 		flexDirection: 'column',

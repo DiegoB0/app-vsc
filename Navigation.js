@@ -159,7 +159,7 @@ function MyTabs() {
 					),
 				})}
 			></Tab.Screen>
-			<Tab.Screen
+			{/* <Tab.Screen
 				name="Statics"
 				component={StaticsScreen}
 				options={({ navigation }) => ({
@@ -193,7 +193,7 @@ function MyTabs() {
 						</TouchableOpacity>
 					),
 				})}
-			></Tab.Screen>
+			></Tab.Screen> */}
 			<Tab.Screen
 				name="Menu"
 				title="Menu"

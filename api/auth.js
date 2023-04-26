@@ -1,9 +1,17 @@
-const API = 'http://locslhost:3002/auth/login';
+const API = 'http://localhost:3002/auth/login';
 
-export const authUser = async () => {
-	requestOptions = {
+export const authUser = async (email, password) => {
+	const res = await fetch(API, {
 		method: 'POST',
-	};
-	const res = await fetch(API, requestOptions);
-	return await res.json();
+		body: JSON.stringify({
+			email,
+			password,
+		}),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	// console.log(res.status);
+	return res;
 };

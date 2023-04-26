@@ -8,12 +8,30 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import { authUser } from '../api/auth';
 
 const LoginScreen = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [user, setUser] = useState({
+		email: '',
+		password: '',
+	});
 
 	const navigation = useNavigation();
+
+	const handleChange = (name, value) => {
+		setUser({ ...user, [name]: value });
+	};
+
+	const handleSubmit = async () => {
+		try {
+			const userResponse = await authUser(user.email, user.password);
+			if (userResponse.status == 200) {
+				navigation.navigate('Home');
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
 	return (
 		<View>
@@ -37,8 +55,8 @@ const LoginScreen = () => {
 					<TextInput
 						placeholder="Escriba su email..."
 						placeholderTextColor="gray"
-						value={email}
-						onChangeText={setEmail}
+						// value={email}
+						// onChangeText={setEmail}
 						style={{
 							borderWidth: 1,
 							borderColor: '#ccc',
@@ -46,14 +64,16 @@ const LoginScreen = () => {
 							borderRadius: 10,
 							fontSize: 16,
 						}}
+						onChangeText={(text) => handleChange('email', text)}
+						value={user.email}
 					/>
 				</View>
 				<View style={{ width: '80%', marginBottom: 20 }}>
 					<TextInput
 						placeholder="Escriba su contraseña..."
 						placeholderTextColor="gray"
-						value={password}
-						onChangeText={setPassword}
+						// value={password}
+						// onChangeText={setPassword}
 						secureTextEntry
 						style={{
 							borderWidth: 1,
@@ -62,10 +82,13 @@ const LoginScreen = () => {
 							borderRadius: 10,
 							fontSize: 16,
 						}}
+						onChangeText={(text) => handleChange('password', text)}
+						value={user.password}
 					/>
 				</View>
 				<TouchableOpacity
-					onPress={() => navigation.navigate('Home')}
+					// onPress={() => navigation.navigate('Home')}
+					onPress={handleSubmit}
 					style={{
 						backgroundColor: 'red',
 						padding: 10,
